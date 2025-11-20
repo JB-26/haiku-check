@@ -1,4 +1,22 @@
 import Image from "next/image";
+import { syllable } from "syllable";
+
+function countSyllables(word: string) {
+  try {
+    console.log(`The number of syllables in "${word}" is ${syllable(word)}`);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+countSyllables("An old silent pond");
+countSyllables("A frog jumps into the pond");
+countSyllables("Splash! Silence again.");
+
+// TODO: find a font similar to font-family: Junicode,serif; - https://www.1001fonts.com/junicode-font.html
+// TODO: pick a theme from DaisyUI or components from Shadcn
+// TODO: add a favicon
+// TODO: write tests in jest and (possibly) in playwright
 
 export default function Home() {
   return (
