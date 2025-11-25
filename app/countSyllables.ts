@@ -1,9 +1,10 @@
 import { syllable } from "syllable";
 
-export default function countSyllables(word: string) {
+export default function countSyllables(word: string): number {
   try {
-    console.log(`The number of syllables in "${word}" is ${syllable(word)}`);
+    return syllable(word);
   } catch (error) {
     console.error(error);
+    return 0;
   }
 }

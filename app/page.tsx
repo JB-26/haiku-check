@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import checkHaiku from "./checkHaiku";
+import countSyllables from "./countSyllables";
 
 // TODO: find a font similar to font-family: Junicode,serif; - https://www.1001fonts.com/junicode-font.html
 // TODO: pick a theme from DaisyUI or components from Shadcn
@@ -11,18 +12,20 @@ export default function Home() {
   const [line1, setLine1] = useState("");
   const [line2, setLine2] = useState("");
   const [line3, setLine3] = useState("");
+  const [haiku, setHaiku] = useState<boolean>();
 
   const readInput = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    console.log(`The first line is ${line1}`);
-    console.log(`The second line is ${line2}`);
-    console.log(`The third line is ${line3}`);
-
-    checkHaiku(line1);
-    checkHaiku(line2);
-    checkHaiku(line3);
+    const result = checkHaiku([
+      countSyllables(line1),
+      countSyllables(line2),
+      countSyllables(line3),
+    ]);
+    console.log(result);
+    setHaiku(result);
   };
+
   return (
     <div className="flex flex-col items-center justify-center">
       <h1>Wait, is that a haiku?</h1>
@@ -64,9 +67,25 @@ export default function Home() {
           required
           spellCheck
         />
+        <p>The first line has {countSyllables(line1)} syllables.</p>
+        <p>The second line has {countSyllables(line2)} syllables.</p>
+        <p>The third line has {countSyllables(line3)} syllables.</p>
         <button type="submit" className="bg-emerald-600 m-2">
           Check it!
         </button>
+        <div>
+          {haiku === true ? (
+            <div>
+              <p className="text-green-600">Yes, it&apos;s a haiku!</p>
+            </div>
+          ) : haiku === false ? (
+            <div>
+              <p className="text-red-600">No, it&apos;s not a haiku.</p>
+            </div>
+          ) : (
+            <div></div>
+          )}
+        </div>
       </form>
     </div>
   );
