@@ -2,6 +2,7 @@
 import { useState } from "react";
 import checkHaiku from "./checkHaiku";
 import countSyllables from "./countSyllables";
+import famousHaiku from "./famousHaikus";
 
 // TODO: find a font similar to font-family: Junicode,serif; - https://www.1001fonts.com/junicode-font.html
 // TODO: pick a theme from DaisyUI or components from Shadcn
@@ -9,19 +10,29 @@ import countSyllables from "./countSyllables";
 // TODO: write tests in jest and (possibly) in playwright
 
 export default function Home() {
+  // this is being stored in state so it doesn't get re-rendered on every keystroke
+  const [randomHaiku] = useState(() => famousHaiku());
   const [line1, setLine1] = useState("");
   const [line2, setLine2] = useState("");
   const [line3, setLine3] = useState("");
+  const [syllableCounts, setSyllableCounts] = useState({
+    line1: 0,
+    line2: 0,
+    line3: 0,
+  });
   const [haiku, setHaiku] = useState<boolean>();
 
   const readInput = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const result = checkHaiku([
-      countSyllables(line1),
-      countSyllables(line2),
-      countSyllables(line3),
-    ]);
+    const count1 = countSyllables(line1);
+    const count2 = countSyllables(line2);
+    const count3 = countSyllables(line3);
+
+    // updating syllable counts
+    setSyllableCounts({ line1: count1, line2: count2, line3: count3 });
+
+    const result = checkHaiku([count1, count2, count3]);
     console.log(result);
     setHaiku(result);
   };
@@ -67,20 +78,31 @@ export default function Home() {
           required
           spellCheck
         />
-        <p>The first line has {countSyllables(line1)} syllables.</p>
-        <p>The second line has {countSyllables(line2)} syllables.</p>
-        <p>The third line has {countSyllables(line3)} syllables.</p>
+
         <button type="submit" className="bg-emerald-600 m-2">
           Check it!
         </button>
         <div>
+          <h2>Random Haiku - refresh the page to see a different one!</h2>
+          <p>{randomHaiku.lineOne}</p>
+          <p>{randomHaiku.lineTwo}</p>
+          <p>{randomHaiku.lineThree}</p>
+          <p>{randomHaiku.author}</p>
+        </div>
+        <div>
           {haiku === true ? (
             <div>
               <p className="text-green-600">Yes, it&apos;s a haiku!</p>
+              <p>The first line has {syllableCounts.line1} syllables.</p>
+              <p>The second line has {syllableCounts.line2} syllables.</p>
+              <p>The third line has {syllableCounts.line3} syllables.</p>
             </div>
           ) : haiku === false ? (
             <div>
               <p className="text-red-600">No, it&apos;s not a haiku.</p>
+              <p>The first line has {syllableCounts.line1} syllables.</p>
+              <p>The second line has {syllableCounts.line2} syllables.</p>
+              <p>The third line has {syllableCounts.line3} syllables.</p>
             </div>
           ) : (
             <div></div>
