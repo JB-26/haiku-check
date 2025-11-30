@@ -3,8 +3,8 @@ import { useState } from "react";
 import checkHaiku from "./checkHaiku";
 import countSyllables from "./countSyllables";
 import famousHaiku from "./famousHaikus";
+import junicode from "./junicode.module.css";
 
-// TODO: find a font similar to font-family: Junicode,serif; - https://www.1001fonts.com/junicode-font.html
 // TODO: pick a theme from DaisyUI or components from Shadcn
 // TODO: add a favicon
 // TODO: write tests in jest and (possibly) in playwright
@@ -39,8 +39,22 @@ export default function Home() {
 
   return (
     <div className="flex flex-col items-center justify-center">
-      <h1>Wait, is that a haiku?</h1>
-      <p>Have you ever thought that?</p>
+      <h1 className={`text-6xl ${junicode.junicode}`}>
+        Wait, is that a{" "}
+        <span className={`text-orange-400 ${junicode.headerHaiku}`}>haiku</span>
+        ?
+      </h1>
+      <h2 className={`text-4xl ${junicode.junicode}`}>
+        Have you ever thought that?
+      </h2>
+      <p className={`text-3xl ${junicode.junicode}`}>
+        Have you ever had the blind panic that you didn&apos;t know that the
+        haiku was not a haiku? Well, I built this tool to help you answer the
+        question,{" "}
+        <span className={`text-orange-400 ${junicode.junicodeItalic}`}>
+          &quot;Is this a haiku?&quot;
+        </span>
+      </p>
       <form className="flex flex-col" onSubmit={readInput}>
         <label htmlFor="line-one">Enter the first line of your haiku:</label>
         <input
@@ -83,13 +97,6 @@ export default function Home() {
           Check it!
         </button>
         <div>
-          <h2>Random Haiku - refresh the page to see a different one!</h2>
-          <p>{randomHaiku.lineOne}</p>
-          <p>{randomHaiku.lineTwo}</p>
-          <p>{randomHaiku.lineThree}</p>
-          <p>{randomHaiku.author}</p>
-        </div>
-        <div>
           {haiku === true ? (
             <div>
               <p className="text-green-600">Yes, it&apos;s a haiku!</p>
@@ -107,6 +114,13 @@ export default function Home() {
           ) : (
             <div></div>
           )}
+        </div>
+        <h2>Random Haiku - refresh the page to see a different one!</h2>
+        <div className={`${junicode.junicodeItalic}`}>
+          <p>{randomHaiku.lineOne}</p>
+          <p>{randomHaiku.lineTwo}</p>
+          <p>{randomHaiku.lineThree}</p>
+          <p>-{randomHaiku.author}</p>
         </div>
       </form>
     </div>

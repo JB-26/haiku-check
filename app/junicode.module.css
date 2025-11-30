@@ -1,0 +1,31 @@
+@font-face {
+    font-family: "Junicode";
+    src: url("../fonts/Junicode.ttf");
+}
+
+@font-face {
+    font-family: "Junicode-Bold";
+    src: url("../fonts/Junicode-Bold.ttf");
+}
+
+@font-face {
+    font-family: "Junicode-Italic";
+    src: url("../fonts/Junicode-Italic.ttf");
+}
+
+@font-face {
+    font-family: "Junicode-BoldItalic";
+    src: url("../fonts/Junicode-BoldItalic.ttf");
+}
+
+.headerHaiku {
+    font-family: "Junicode-BoldItalic";
+}
+
+.junicode {
+    font-family: "Junicode";
+}
+
+.junicodeItalic {
+    font-family: "Junicode-Italic";
+}
