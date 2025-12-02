@@ -5,6 +5,7 @@ import checkHaiku from "./checkHaiku";
 import countSyllables from "./countSyllables";
 import famousHaiku from "./famousHaikus";
 import junicode from "./junicode.module.css";
+import confetti from "canvas-confetti";
 
 type Haiku = {
   lineOne: string;
@@ -13,7 +14,6 @@ type Haiku = {
   author: string;
 };
 
-// TODO: pick a theme from DaisyUI or components from Shadcn
 // TODO: add a favicon
 // TODO: write tests in jest and (possibly) in playwright
 
@@ -38,6 +38,17 @@ export default function Home() {
     }
   }, [randomHaiku]);
 
+  // this only runs when haiku is true
+  useEffect(() => {
+    if (haiku === true) {
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 },
+      });
+    }
+  }, [haiku]);
+
   const readInput = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -54,27 +65,23 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center w-2xl m-auto">
+    <div className="flex flex-col items-center justify-center max-w-xl md:max-w-none">
       <h1 className={`text-4xl md:text-6xl m-2.5 ${junicode.junicode}`}>
         Wait, is that a{" "}
         <span className={`text-orange-400 ${junicode.headerHaiku}`}>haiku</span>
         ?
       </h1>
-      <h2 className={`text-3xl md:text-4xl m-2.5 ${junicode.junicode}`}>
-        Have you ever thought that?
-      </h2>
-      <p className={`text-xl md:text-3xl m-2.5 ${junicode.junicode}`}>
-        Have you ever had the blind panic that you didn&apos;t know that the
-        haiku was not a haiku? Well, I built this tool to help you answer the
-        question,{" "}
+      <p className={`text-xl max-w-2xl md:text-3xl m-2.5 ${junicode.junicode}`}>
+        Have you ever had the blind panic that you didn&apos;t know if you had a
+        haiku? Well, I built this tool to help you answer the question,{" "}
         <span className={`text-orange-400 ${junicode.junicodeItalic}`}>
           &quot;Is this a haiku?&quot;
         </span>
       </p>
-      <form className="flex flex-col" onSubmit={readInput}>
+      <form className="flex flex-col m-2.5" onSubmit={readInput}>
         <label htmlFor="line-one">Enter the first line of your haiku:</label>
         <input
-          className="bg-blue-400"
+          className="bg-gray-200 rounded-md"
           type="text"
           id="line-one"
           name="line-one"
@@ -86,7 +93,7 @@ export default function Home() {
         />
         <label htmlFor="line-two">Enter the second line of your haiku:</label>
         <input
-          className="bg-blue-400"
+          className="bg-gray-200 rounded-md"
           type="text"
           id="line-two"
           name="line-two"
@@ -98,7 +105,7 @@ export default function Home() {
         />
         <label htmlFor="line-three">Enter the third line of your haiku:</label>
         <input
-          className="bg-blue-400"
+          className="bg-gray-200 rounded-md"
           type="text"
           id="line-three"
           name="line-three"
@@ -109,20 +116,24 @@ export default function Home() {
           spellCheck
         />
 
-        <button type="submit" className="bg-emerald-600 m-2">
+        <button type="submit" className="bg-orange-400 rounded-md m-2">
           Check it!
         </button>
         <div>
           {haiku === true ? (
-            <div>
-              <p className="text-green-600">Yes, it&apos;s a haiku!</p>
+            <div className="bg-green-300 rounded-2xl flex flex-col items-center justify-center">
+              <p className="text-green-600 font-bold">
+                Yes, it&apos;s a haiku!
+              </p>
               <p>The first line has {syllableCounts.line1} syllables.</p>
               <p>The second line has {syllableCounts.line2} syllables.</p>
               <p>The third line has {syllableCounts.line3} syllables.</p>
             </div>
           ) : haiku === false ? (
-            <div>
-              <p className="text-red-600">No, it&apos;s not a haiku.</p>
+            <div className="bg-red-300 rounded-2xl flex flex-col items-center justify-center">
+              <p className="text-red-600 font-bold">
+                No, it&apos;s not a haiku.
+              </p>
               <p>The first line has {syllableCounts.line1} syllables.</p>
               <p>The second line has {syllableCounts.line2} syllables.</p>
               <p>The third line has {syllableCounts.line3} syllables.</p>
@@ -134,7 +145,7 @@ export default function Home() {
       </form>
       <h2>Random Haiku - refresh the page to see a different one!</h2>
       <div
-        className={`flex flex-col items-center justify-center w-2xl m-auto text-2xl p-2.5 ${junicode.junicodeItalic}`}
+        className={`flex flex-col items-center justify-center m-auto text-2xl p-2.5 ${junicode.junicodeItalic}`}
       >
         {randomHaiku ? (
           <>
@@ -147,7 +158,7 @@ export default function Home() {
           <p>Loading...</p>
         )}
       </div>
-      <div className="m-2.5">
+      <div className="flex flex-col items-center justify-center m-auto text-2xl p-2.5 max-w-2xl">
         <p>
           I built this project for two reasons. One, I thought it was fun. Two,
           I wanted to challenge myself and learn more about forms, states and
@@ -162,7 +173,7 @@ export default function Home() {
           decide if something was a haiku.
         </p>
       </div>
-      <footer>
+      <footer className="bg-orange-100 flex items-center justify-center m-auto text-xl">
         <p>
           A fun tool built by{" "}
           <Link
