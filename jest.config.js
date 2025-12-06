@@ -19,8 +19,9 @@ const customJestConfig = {
   moduleNameMapper: {
     // Handle module aliases
     "^@/(.*)$": "<rootDir>/$1",
+    "^syllable$": "<rootDir>/__mocks__/syllable.ts",
   },
-  transformIgnorePatterns: ["node_modules/(?!(syllable|pluralize)/)"],
+  transformIgnorePatterns: ["node_modules/(?!(syllable|pluralize|n-gram)/)"],
   collectCoverage: true,
   collectCoverageFrom: [
     "app/**/*.{js,jsx,ts,tsx}",
